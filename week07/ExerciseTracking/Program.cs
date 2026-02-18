@@ -23,36 +23,27 @@ class Program
             switch (choice)
             {
                 case "1":
-                    Console.Write("Enter date (yyyy-mm-dd): ");
-                    DateTime runDate = DateTime.Parse(Console.ReadLine());
-                    Console.Write("Enter duration (minutes): ");
-                    int runMinutes = int.Parse(Console.ReadLine());
-                    Console.Write("Enter distance (miles): ");
-                    double runDistance = double.Parse(Console.ReadLine());
+                    DateTime runDate = ReadDate("Enter date (yyyy-mm-dd): ");
+                    int runMinutes = ReadInt("Enter duration (minutes): ");
+                    double runDistance = ReadDouble("Enter distance (miles): ");
 
                     activities.Add(new Running(runDate, runMinutes, runDistance));
                     Console.WriteLine("✅ Running activity logged!");
                     break;
 
                 case "2":
-                    Console.Write("Enter date (yyyy-mm-dd): ");
-                    DateTime cycleDate = DateTime.Parse(Console.ReadLine());
-                    Console.Write("Enter duration (minutes): ");
-                    int cycleMinutes = int.Parse(Console.ReadLine());
-                    Console.Write("Enter speed (mph): ");
-                    double cycleSpeed = double.Parse(Console.ReadLine());
+                    DateTime cycleDate = ReadDate("Enter date (yyyy-mm-dd): ");
+                    int cycleMinutes = ReadInt("Enter duration (minutes): ");
+                    double cycleSpeed = ReadDouble("Enter speed (mph): ");
 
                     activities.Add(new Cycling(cycleDate, cycleMinutes, cycleSpeed));
                     Console.WriteLine("✅ Cycling activity logged!");
                     break;
 
                 case "3":
-                    Console.Write("Enter date (yyyy-mm-dd): ");
-                    DateTime swimDate = DateTime.Parse(Console.ReadLine());
-                    Console.Write("Enter duration (minutes): ");
-                    int swimMinutes = int.Parse(Console.ReadLine());
-                    Console.Write("Enter laps: ");
-                    int swimLaps = int.Parse(Console.ReadLine());
+                    DateTime swimDate = ReadDate("Enter date (yyyy-mm-dd): ");
+                    int swimMinutes = ReadInt("Enter duration (minutes): ");
+                    int swimLaps = ReadInt("Enter laps: ");
 
                     activities.Add(new Swimming(swimDate, swimMinutes, swimLaps));
                     Console.WriteLine("✅ Swimming activity logged!");
@@ -60,9 +51,16 @@ class Program
 
                 case "4":
                     Console.WriteLine("\n--- Activity Summaries ---");
-                    foreach (var activity in activities)
+                    if (activities.Count == 0)
                     {
-                        Console.WriteLine(activity.GetSummary());
+                        Console.WriteLine("No activities logged yet.");
+                    }
+                    else
+                    {
+                        foreach (var activity in activities)
+                        {
+                            Console.WriteLine(activity.GetSummary());
+                        }
                     }
                     break;
 
@@ -76,5 +74,39 @@ class Program
                     break;
             }
         }
+    }
+
+    // Helper methods for validation
+    static DateTime ReadDate(string prompt)
+    {
+        DateTime value;
+        Console.Write(prompt);
+        while (!DateTime.TryParse(Console.ReadLine(), out value))
+        {
+            Console.Write("❌ Invalid date. Try again (yyyy-mm-dd): ");
+        }
+        return value;
+    }
+
+    static int ReadInt(string prompt)
+    {
+        int value;
+        Console.Write(prompt);
+        while (!int.TryParse(Console.ReadLine(), out value) || value <= 0)
+        {
+            Console.Write("❌ Invalid number. Enter a positive integer: ");
+        }
+        return value;
+    }
+
+    static double ReadDouble(string prompt)
+    {
+        double value;
+        Console.Write(prompt);
+        while (!double.TryParse(Console.ReadLine(), out value) || value <= 0)
+        {
+            Console.Write("❌ Invalid number. Enter a positive value: ");
+        }
+        return value;
     }
 }

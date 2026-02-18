@@ -1,3 +1,5 @@
+using System;
+
 public class Swimming : Activity
 {
     private int _laps;
@@ -10,7 +12,6 @@ public class Swimming : Activity
 
     public override double GetDistance()
     {
-        // Convert laps to miles (50m per lap → km → miles)
         double km = (_laps * 50) / 1000.0;
         return km * 0.62;
     }
